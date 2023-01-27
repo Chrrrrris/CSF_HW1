@@ -4,9 +4,9 @@ Project Members: Chris Wang, Zeya Song
 
 Contributions:
 Assignment 1 MS1:
-    Tuxun Lu: 
-    Jiarui Chen: 
+    Chris Wang: 
+    Zeya Song: 
 
 Assignment 1 MS2:
-    Tuxun Lu: 
-    Jiarui Chen: 
+    Chris Wang: 
+    Zeya Song: 
