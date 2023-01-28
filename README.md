@@ -3,14 +3,14 @@
 Project Members: Chris Wang, Emily Song
 
 Contributions:
-Assignment 1 MS1:
+Assignment 1 MileStone1:
 
 
     Chris Wang: 
     
     Emily Song: 
 
-Assignment 1 MS2:
+Assignment 1 MileStone2:
 
 
     Chris Wang: 
