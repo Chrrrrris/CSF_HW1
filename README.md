@@ -6,9 +6,9 @@ Contributions:
 Assignment 1 MileStone1:
 
 
-    Chris Wang: 
+    Chris Wang: Completed all the required functions for MS1.
     
-    Emily Song: 
+    Emily Song: Reviewed the completed functions and ran memory tests.
 
 Assignment 1 MileStone2:
 
