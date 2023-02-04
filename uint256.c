@@ -37,13 +37,16 @@ UInt256 uint256_create_from_hex(const char *hex) {
   char **end = NULL;
   for (unsigned i = 0; i < 4; i++) {
     if (strlen(str) > 16) {
+      // case when the remaining string length is longer than 16
       strncpy(rightmost, str + strlen(str) - 16, 16);
       rightmost[16] = '\0';
       result.data[i] = (uint64_t)strtoul(rightmost, end, 16);
       str[strlen(str) - 16] = '\0';
     } else if (!strlen(str)) {
+      // case when the string is completely parsed, set the bit to zero
       result.data[i] = 0U;
     } else {
+      // case when the remaining string length is between 0 and 16
       result.data[i] = (uint64_t)strtoul(str, end, 16);
       str[0] = '\0';
     }
@@ -58,10 +61,13 @@ char *uint256_format_as_hex(UInt256 val) {
   char *hex = malloc((4 * 16 + 1) * sizeof(char));
   int len = 0; // incremental string length
   char *buf = malloc(17 * sizeof(char));
+  // determine whether or not to pad the result, zero for the highest bit
   int padded = 0;
 
   for (int i = 3; i >= 0; i--) {
+    // start from the most significant bit
     uint64_t value = val.data[i];
+    // the highest bit should not have unnecessary zeros
     if (!padded) {
       if (value) {
         sprintf(buf, "%lx", value); // format without leading 0s
@@ -70,12 +76,17 @@ char *uint256_format_as_hex(UInt256 val) {
         buf[0] = '\0';
       }
     } else {
+      // other bits can have leading zeros
       sprintf(buf, "%016lx", value);
     }
+    // update hex 
     strncpy(hex + len, buf, strlen(buf));
+    // increment len
     len += strlen(buf);
+    // attach a terminating zero
     *(hex + len) = '\0';
   }
+  // terminating zero at the end of the result string
   hex[len * sizeof(char)] = '\0';
   if (!len) { // check for 0
     hex[0] = '0';
