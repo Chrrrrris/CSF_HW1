@@ -151,7 +151,6 @@ void test_format_as_hex(TestObjs *objs) {
   char *s;
 
   s = uint256_format_as_hex(objs->zero);
-  printf("\nS is %s\n", s);
   ASSERT(0 == strcmp("0", s));
   free(s);
 
