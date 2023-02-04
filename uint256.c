@@ -95,9 +95,22 @@ uint64_t uint256_get_bits(UInt256 val, unsigned index) {
 
 // Compute the sum of two UInt256 values.
 UInt256 uint256_add(UInt256 left, UInt256 right) {
-  UInt256 sum;
-  // TODO: implement
-  return sum;
+  UInt256 final_sum;
+  int overflowed = 0;
+  for (unsigned i = 0; i < 4; i++) {
+    uint64_t leftval = left.data[i];
+    uint64_t rightval = right.data[i];
+    uint64_t sum = leftval + rightval;
+    if (overflowed) {
+      sum += 1;
+      overflowed = 0;
+    }
+    if (sum < leftval) {
+      overflowed = 1;
+    }
+    final_sum.data[i] = sum;
+  }
+  return final_sum;
 }
 
 // Compute the difference of two UInt256 values.
