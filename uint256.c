@@ -57,18 +57,17 @@ char *uint256_format_as_hex(UInt256 val) {
   char *hex = malloc((4 * 16 + 1) * sizeof(char));
   int len = 0; //incremental string length
   char *buf = malloc(17 * sizeof(char));
-  for (unsigned i = 3; i >= 0; i--) {
+  for (int i = 3; i >= 0; i--) {
     uint64_t value = val.data[i];
     if (!len) {
-      sprintf(buf, "%llx", value);    // format without leading 0s
+      sprintf(buf, "%lx", value);    // format without leading 0s
     } else {
-      sprintf(buf, "%016llx", value);
+      sprintf(buf, "%016lx", value);
     }
     strncpy(hex + len, buf, strlen(buf));
-    hex[strlen(hex)] = '\0';
+    *(hex + len) = '\0';
     len += strlen(buf);
   }
-  printf("\nGot here!\n");
   hex = (char *) realloc(hex, len * sizeof(char) + 1);
   hex[len * sizeof(char)] = '\0';
   return hex;
