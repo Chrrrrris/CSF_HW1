@@ -30,7 +30,7 @@ UInt256 uint256_create(const uint64_t data[4]) {
 // Create a UInt256 value from a string of hexadecimal digits.
 UInt256 uint256_create_from_hex(const char *hex) {
   UInt256 result;
-  char *str = malloc(strlen(hex) * sizeof(char));
+  char *str = malloc((strlen(hex) + 1) * sizeof(char));
   strncpy(str, hex, strlen(hex)); //copy to non-const
   str[strlen(hex)] = '\0';
   char *rightmost = NULL;
@@ -54,8 +54,23 @@ UInt256 uint256_create_from_hex(const char *hex) {
 // Return a dynamically-allocated string of hex digits representing the
 // given UInt256 value.
 char *uint256_format_as_hex(UInt256 val) {
-  char *hex = NULL;
-  // TODO: implement
+  char *hex = malloc((4 * 16 + 1) * sizeof(char));
+  int len = 0; //incremental string length
+  char *buf = malloc(17 * sizeof(char));
+  for (unsigned i = 3; i >= 0; i--) {
+    uint64_t value = val.data[i];
+    if (!len) {
+      sprintf(buf, "%llx", value);    // format without leading 0s
+    } else {
+      sprintf(buf, "%016llx", value);
+    }
+    strncpy(hex + len, buf, strlen(buf));
+    hex[strlen(hex)] = '\0';
+    len += strlen(buf);
+  }
+  printf("\nGot here!\n");
+  hex = (char *) realloc(hex, len * sizeof(char) + 1);
+  hex[len * sizeof(char)] = '\0';
   return hex;
 }
 
