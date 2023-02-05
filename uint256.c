@@ -116,7 +116,7 @@ UInt256 uint256_add(UInt256 left, UInt256 right) {
       sum += 1;
       overflowed = 0;
     }
-    if (sum < leftval) {
+    if (sum < leftval || sum < rightval) {
       overflowed = 1;
     }
     final_sum.data[i] = sum;
@@ -127,7 +127,13 @@ UInt256 uint256_add(UInt256 left, UInt256 right) {
 // Compute the difference of two UInt256 values.
 UInt256 uint256_sub(UInt256 left, UInt256 right) {
   UInt256 result;
-  // TODO: implement
+  UInt256 inverted_right;
+  UInt256 one = uint256_create_from_u64(1UL);
+  for(unsigned i = 0; i < 4; i++) {
+    inverted_right.data[i] = ~(right.data[i]);
+  }
+  UInt256 negated_right = uint256_add(inverted_right, one);
+  result = uint256_add(left, negated_right);
   return result;
 }
 
@@ -163,7 +169,7 @@ UInt256 uint256_leftshift(UInt256 val, unsigned shift) {
   // convert uint256 to binary string
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j <= 63; j++) {
-      if (val.data > 0) {
+      if (val.data[i] > 0) {
         if (val.data[i] % 2 == 1) {
           bin[place - j] = '1';
         } else {

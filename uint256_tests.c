@@ -35,6 +35,8 @@ void test_sub_2(TestObjs *objs);
 void test_sub_3(TestObjs *objs);
 void test_mul_1(TestObjs *objs);
 void test_mul_2(TestObjs *objs);
+void test_mul_3(TestObjs *objs);
+
 
 int main(int argc, char **argv) {
   if (argc > 1) {
@@ -56,6 +58,8 @@ int main(int argc, char **argv) {
   TEST(test_sub_3);
   TEST(test_mul_1);
   TEST(test_mul_2);
+  TEST(test_mul_3);
+
 
   TEST_FINI();
 }
@@ -308,3 +312,25 @@ void test_mul_2(TestObjs *objs) {
   ASSERT(0x61abad710163aa9bUL == result.data[2]);
   ASSERT(0x991f2125eacd3UL == result.data[3]);
 }
+
+
+void test_mul_3(TestObjs *objs) {
+  (void) objs;
+
+  UInt256 left, right, result;
+
+  left.data[0] = 0x0UL;
+  left.data[1] = 0x1UL;
+  left.data[2] = 0x0UL;
+  left.data[3] = 0x0UL;
+  right.data[0] = 0x0UL;
+  right.data[1] = 0x1UL;
+  right.data[2] = 0x0UL;
+  right.data[3] = 0x0UL;
+  result = uint256_mul(left, right);
+  ASSERT(0x0UL == result.data[0]);
+  ASSERT(0x0UL == result.data[1]);
+  ASSERT(0x1UL == result.data[2]);
+  ASSERT(0x0UL == result.data[3]);
+}
+
