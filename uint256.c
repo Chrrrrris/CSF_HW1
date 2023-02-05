@@ -157,7 +157,9 @@ UInt256 uint256_leftshift(UInt256 val, unsigned shift) {
   // start from the last index
   int place = 255;
   bin[256] = '\0';
-
+  for (int i = 0; i < 256; i++) {
+     bin[i] = '\0';
+  }
   // convert uint256 to binary string
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j <= 63; j++) {
@@ -185,6 +187,7 @@ UInt256 uint256_leftshift(UInt256 val, unsigned shift) {
       bin[i] = '0';
     }
   }
+
   // convert shifted binary string to uint256
   val = uint256_create_from_bin(bin);
   free(bin);
@@ -197,12 +200,14 @@ UInt256 uint256_create_from_bin(const char *bin) {
   char *str = malloc((strlen(bin) + 1) * sizeof(char));
   strncpy(str, bin, strlen(bin)); // copy to non-const
   str[strlen(bin)] = '\0';
-  char *rightmost = NULL;
+  char rightmost [65];
+  memset(rightmost, '\0', 65);
   char **end = NULL;
   for (unsigned i = 0; i < 4; i++) {
     if (strlen(str) > 64) {
       // case when the remaining string length is longer than 16
-      strncpy(rightmost, str + strlen(str) - 64, 64);
+      size_t len = strlen(str);
+      strncpy(rightmost, str + len - 64, 64);
       rightmost[64] = '\0';
       result.data[i] = (uint64_t)strtoul(rightmost, end, 2);
       str[strlen(str) - 64] = '\0';
