@@ -194,8 +194,9 @@ UInt256 uint256_leftshift(UInt256 val, unsigned shift) {
 // Create a UInt256 value from a string of binary digits.
 UInt256 uint256_create_from_bin(const char *bin) {
   UInt256 result;
-  char *str = malloc(strlen(bin) * sizeof(char));
+  char *str = malloc((strlen(bin) + 1) * sizeof(char));
   strncpy(str, bin, strlen(bin)); // copy to non-const
+  str[strlen(bin)] = '\0';
   char *rightmost = NULL;
   char **end = NULL;
   for (unsigned i = 0; i < 4; i++) {
