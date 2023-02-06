@@ -33,7 +33,8 @@ UInt256 uint256_create_from_hex(const char *hex) {
   char *str = malloc((strlen(hex) + 1) * sizeof(char));
   strncpy(str, hex, strlen(hex)); // copy to non-const
   str[strlen(hex)] = '\0';
-  char *rightmost = NULL;
+  char rightmost [17];
+  memset(rightmost, '\0', 17);  
   char **end = NULL;
   for (unsigned i = 0; i < 4; i++) {
     if (strlen(str) > 16) {
