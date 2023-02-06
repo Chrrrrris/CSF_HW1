@@ -54,6 +54,7 @@ UInt256 uint256_leftshift(UInt256 val, unsigned shift);
 // Create a UInt256 value from a string of binary digits.
 UInt256 uint256_create_from_bin(const char *bin);
 
-// You may add additional functions if you would like to
+// format uint256 to a binary string
+char *uint256_format_as_bin(UInt256 val);
 
 #endif // UINT256_H

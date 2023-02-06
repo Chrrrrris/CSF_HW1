@@ -140,13 +140,18 @@ UInt256 uint256_sub(UInt256 left, UInt256 right) {
 // Compute the product of two UInt256 values.
 UInt256 uint256_mul(UInt256 left, UInt256 right) {
   UInt256 product = uint256_create_from_u64(0U);
+  // convert right uint256 to binary string
+  char* right_bin = uint256_format_as_bin(right);
   for (unsigned i = 0; i < 256; i++) {
-    if (uint256_bit_is_set(right, i)) {
+    // check whether a specific position is set
+    if (right_bin[255-i] == '1') {
       product = uint256_add(product, uint256_leftshift(left, i));
     }
   }
+  free(right_bin);
   return product;
 }
+
 
 // Determine whether a particular bit is set to 1.
 // index is the index of the bit to be evaluated in UInt256 val.
@@ -159,6 +164,28 @@ int uint256_bit_is_set(UInt256 val, unsigned index) {
 // Left-shift a value by a specified number of positions:
 UInt256 uint256_leftshift(UInt256 val, unsigned shift) {
   // string of binary digits
+  char *bin = uint256_format_as_bin(val);
+  
+  // perform leftshift on the binary string
+  
+  for (unsigned i = 0; i < 256; i++) {
+    if (i + shift < 256) {
+      // higher digits are replaced by lower digits
+      bin[i] = bin[i + shift];
+    } else {
+      // zeros are padded to the lowest digits
+      bin[i] = '0';
+    }
+  }
+
+  // convert shifted binary string to uint256
+  val = uint256_create_from_bin(bin);
+  free(bin);
+  return val;
+}
+
+// format uint256 to a binary string
+char *uint256_format_as_bin(UInt256 val) {
   char *bin = malloc(sizeof(char) * 257);
   // start from the last index
   int place = 255;
@@ -182,23 +209,9 @@ UInt256 uint256_leftshift(UInt256 val, unsigned shift) {
     }
     place -= 64;
   }
-  
-  // perform leftshift on the binary string
-  for (unsigned i = 0; i < 256; i++) {
-    if (i + shift < 256) {
-      // higher digits are replaced by lower digits
-      bin[i] = bin[i + shift];
-    } else {
-      // zeros are padded to the lowest digits
-      bin[i] = '0';
-    }
-  }
-
-  // convert shifted binary string to uint256
-  val = uint256_create_from_bin(bin);
-  free(bin);
-  return val;
+  return bin;
 }
+
 
 // Create a UInt256 value from a string of binary digits.
 UInt256 uint256_create_from_bin(const char *bin) {
@@ -229,6 +242,3 @@ UInt256 uint256_create_from_bin(const char *bin) {
   free(str);
   return result;
 }
-
-
-
