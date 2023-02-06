@@ -154,14 +154,6 @@ UInt256 uint256_mul(UInt256 left, UInt256 right) {
 }
 
 
-// Determine whether a particular bit is set to 1.
-// index is the index of the bit to be evaluated in UInt256 val.
-int uint256_bit_is_set(UInt256 val, unsigned index) {
-  // determine which element is the index in
-  unsigned element = index / 64;
-  return val.data[element] & (1UL << (index % 64));
-}
-
 // Left-shift a value by a specified number of positions:
 UInt256 uint256_leftshift(UInt256 val, unsigned shift) {
   // string of binary digits
