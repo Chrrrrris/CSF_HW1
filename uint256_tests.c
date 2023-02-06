@@ -39,6 +39,7 @@ void test_sub_3(TestObjs *objs);
 void test_sub_4(TestObjs *objs);
 void test_sub_5(TestObjs *objs);
 void test_sub_6(TestObjs *objs);
+void test_sub_7(TestObjs *objs);
 
 void test_mul_1(TestObjs *objs);
 void test_mul_2(TestObjs *objs);
@@ -72,6 +73,7 @@ int main(int argc, char **argv) {
   TEST(test_sub_4);
   TEST(test_sub_5);
   TEST(test_sub_6);
+  TEST(test_sub_7);
 
   TEST(test_mul_1);
   TEST(test_mul_2);
@@ -428,6 +430,24 @@ void test_sub_6(TestObjs *objs) {
   right.data[3] = 0x0UL;
   result = uint256_sub(left, right);
   ASSERT(0xffffffffffffffffUL == result.data[0]);
+  ASSERT(0x0UL == result.data[1]);
+  ASSERT(0x0UL == result.data[2]);
+  ASSERT(0x0UL == result.data[3]);
+}
+
+void test_sub_7(TestObjs *objs) {
+  // subtract from zero
+
+  (void) objs;
+
+  UInt256 right, result;
+
+  right.data[0] = 0xffffffffffffffffUL;
+  right.data[1] = 0xffffffffffffffffUL;
+  right.data[2] = 0xffffffffffffffffUL;
+  right.data[3] = 0xffffffffffffffffUL;
+  result = uint256_sub(objs->zero, right);
+  ASSERT(0x1UL == result.data[0]);
   ASSERT(0x0UL == result.data[1]);
   ASSERT(0x0UL == result.data[2]);
   ASSERT(0x0UL == result.data[3]);
