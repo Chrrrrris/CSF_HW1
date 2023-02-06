@@ -45,8 +45,6 @@ UInt256 uint256_sub(UInt256 left, UInt256 right);
 // Compute the product of two UInt256 values.
 UInt256 uint256_mul(UInt256 left, UInt256 right);
 
-// Determine whether a particular bit is set to 1.
-int uint256_bit_is_set(UInt256 val, unsigned index);
 
 // Left-shift a value by a specified number of positions:
 UInt256 uint256_leftshift(UInt256 val, unsigned shift);
