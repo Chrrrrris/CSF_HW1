@@ -30,6 +30,9 @@ void test_format_as_hex(TestObjs *objs);
 void test_add_1(TestObjs *objs);
 void test_add_2(TestObjs *objs);
 void test_add_3(TestObjs *objs);
+void test_add_4(TestObjs *objs);
+void test_add_5(TestObjs *objs);
+
 void test_sub_1(TestObjs *objs);
 void test_sub_2(TestObjs *objs);
 void test_sub_3(TestObjs *objs);
@@ -55,6 +58,8 @@ int main(int argc, char **argv) {
   TEST(test_add_1);
   TEST(test_add_2);
   TEST(test_add_3);
+  TEST(test_add_4);
+  TEST(test_add_5);
   TEST(test_sub_1);
   TEST(test_sub_2);
   TEST(test_sub_3);
@@ -169,7 +174,6 @@ void test_format_as_hex(TestObjs *objs) {
 
 void test_add_1(TestObjs *objs) {
   // basic addition tests
-
   UInt256 sum;
 
   sum = uint256_add(objs->zero, objs->one);
@@ -225,6 +229,51 @@ void test_add_3(TestObjs *objs) {
   ASSERT(0xc7aa07a5c1cba880UL == result.data[2]);
   ASSERT(0xac5151273cfcf2eUL == result.data[3]);
 }
+
+void test_add_4(TestObjs *objs) {
+  // add zero
+
+  (void) objs;
+
+  UInt256 left, right, result;
+
+  left.data[0] = 0x1UL;
+  left.data[1] = 0x0UL;
+  left.data[2] = 0x0UL;
+  left.data[3] = 0x0UL;
+  right.data[0] = 0x0UL;
+  right.data[1] = 0x0UL;
+  right.data[2] = 0x0UL;
+  right.data[3] = 0x0UL;
+  result = uint256_add(left, right);
+  ASSERT(0x1UL == result.data[0]);
+  ASSERT(0x0UL == result.data[1]);
+  ASSERT(0x0UL == result.data[2]);
+  ASSERT(0x0UL == result.data[3]);
+}
+
+void test_add_5(TestObjs *objs) {
+  // addition cause overflow
+
+  (void) objs;
+
+  UInt256 left, right, result;
+
+  left.data[0] = 0xffffffffffffffffUL;
+  left.data[1] = 0xffffffffffffffffUL;
+  left.data[2] = 0xffffffffffffffffUL;
+  left.data[3] = 0xffffffffffffffffUL;
+  right.data[0] = 0x1UL;
+  right.data[1] = 0x0UL;
+  right.data[2] = 0x0UL;
+  right.data[3] = 0x0UL;
+  result = uint256_add(left, right);
+  ASSERT(0x0UL == result.data[0]);
+  ASSERT(0x0UL == result.data[1]);
+  ASSERT(0x0UL == result.data[2]);
+  ASSERT(0x0UL == result.data[3]);
+}
+
 
 void test_sub_1(TestObjs *objs) {
   // basic subtraction tests
