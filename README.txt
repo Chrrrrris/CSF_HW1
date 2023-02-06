@@ -13,6 +13,6 @@ Assignment 1 MileStone1:
 Assignment 1 MileStone2:
 
 
-    Chris Wang: 
+    Chris Wang: completed multiplication function, test cases, and memory check.
     
-    Emily Song: 
+    Emily Song: completeduint256_create_from_hex, uint256_format_as_hex, add, and subtraction functions.
